@@ -55,8 +55,10 @@ export function Home() {
   const itineraryChartData = prepareChartData(allTimeLogData, 'itinerary_recommendation');
   const recommendationChartData = prepareChartData(allTimeLogData, 'recommendation');
   const clickChartData = prepareChartData(allTimeLogData, 'click');
-  // console.log(todayLogData);
-  // console.log(allTimeLogData);
+  let clicksToday = todayLogData.filter(log => log.event_type === "click").length;
+  let recommendationsToday = todayLogData.filter(log => log.event_type === "recommendation").length;
+  let itineraryRecommendationsToday = todayLogData.filter(log => log.event_type === "itinerary_recommendation").length;
+  // console.log(businessData);
 
   return (
     <div className="mt-12 flex flex-col">
@@ -67,7 +69,7 @@ export function Home() {
             <StatisticsCard
             key={`${allTimeLogData[0]?.business__business_name}-recommendations`}
             title={`${allTimeLogData[0]?.business__business_name} - Todays recommendation stats`}
-            value={0}
+            value={recommendationsToday}
             color="gray"
             icon={React.createElement(ClipboardIcon, {
               className: "w-6 h-6 text-white",
@@ -81,7 +83,7 @@ export function Home() {
             <StatisticsCard
             key={`$${allTimeLogData[0]?.business__business_name}-clicks`}
             title={`${allTimeLogData[0]?.business__business_name} - Todays clicks stats`}
-            value={0}
+            value={clicksToday}
             color="gray"
             icon={React.createElement(CursorArrowRaysIcon, {
               className: "w-6 h-6 text-white",
@@ -95,7 +97,7 @@ export function Home() {
             <StatisticsCard
             key={`${allTimeLogData[0]?.business__business_name}-clicks`}
             title={`${allTimeLogData[0]?.business__business_name} - Todays Itinerary rec' stats`}
-            value={0}
+            value={itineraryRecommendationsToday}
             color="gray"
             icon={React.createElement(DocumentTextIcon, {
               className: "w-6 h-6 text-white",

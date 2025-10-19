@@ -1,6 +1,6 @@
 import { chartsConfig } from "@/configs";
 
-export const prepareChartData = (data, eventType) => {
+export const prepareChartData = (data, eventType) => { 
   const filteredData = data.filter(item => item.event_type === eventType);
   const countsByDate = {};
   const countsByName = {};
@@ -20,7 +20,9 @@ export const prepareChartData = (data, eventType) => {
 
   // Sort countsByDate by date keys
   const sortedDates = Object.keys(countsByDate).sort((a, b) => new Date(a) - new Date(b));
-  const sortedCountsByDate = sortedDates.reduce((acc, date) => {
+  // Limit the number of displayed days/entries to a maximum of 10 (show the last 10 days)
+  const last10Dates = sortedDates.slice(-15);
+  const limitedCountsByDate = last10Dates.reduce((acc, date) => {
     acc[date] = countsByDate[date];
     return acc;
   }, {});
@@ -28,11 +30,11 @@ export const prepareChartData = (data, eventType) => {
   const series = [
     {
       name: eventType,
-      data: Object.values(sortedCountsByDate),
+      data: Object.values(limitedCountsByDate),
     },
   ];
 
-  const categories = Object.keys(sortedCountsByDate);
+  const categories = Object.keys(limitedCountsByDate);
 
   return {
     type: "line",
